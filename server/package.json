@@ -1,0 +1,30 @@
+{
+  "name": "cornerstone-server",
+  "version": "1.0.0",
+  "description": "The backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "db:create": "npx sequelize-cli db:create",
+    "db:seed": "npx sequelize-cli db:seed:all",
+    "db:migrate": "npx sequelize-cli db:migrate",
+    "db:reset": "npx sequelize-cli db:drop && npm run db:create && npm run db:migrate && npm run db:seed",
+    "db:create:test": "NODE_ENV=test npx sequelize-cli db:create",
+    "db:seed:test": "NODE_ENV=test npx sequelize-cli db:seed:all",
+    "db:migrate:test": "NODE_ENV=test npx sequelize-cli db:migrate",
+    "db:reset:test": "NODE_ENV=test npx sequelize-cli db:drop && npm run db:create:test && npm run db:migrate:test",
+    "check-env": "node -e 'console.log(process.env)' | grep npm"
+  },
+  "author": "HG King",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql2": "^2.1.0",
+    "sequelize": "^6.3.4"
+  },
+  "devDependencies": {
+    "jest": "^26.2.2",
+    "sequelize-cli": "^6.2.0",
+    "supertest": "^4.0.2"
+  }
+}
