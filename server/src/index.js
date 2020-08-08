@@ -6,12 +6,13 @@
 // The point of this file is to load everything into memory, connect to DB
 // and setup the server to listen for certain endpoints
 let exitCode = 0;
-const express = require('express');
 
 try {
   // announce the app startup
   console.log("App is starting up...");
 
+  const express = require('express');
+  const bodyParser = require('body-parser');
   const db = require('./models');
   const app = express();
   const configuration = require('./config/application.json');
@@ -36,7 +37,9 @@ try {
   });
 
   app.listen(configuration.PORT, configuration.HOST);
-  console.log(`Listening at http://${configuration.HOST}:${configuration.PORT}`);
+  console.log(
+    `Listening at http://${configuration.HOST}:${configuration.PORT}`
+  );
 
 } catch(e) {
   // something bad has happened

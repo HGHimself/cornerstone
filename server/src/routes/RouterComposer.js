@@ -1,6 +1,3 @@
-const express = require('express');
-const app = express();
-
 const create = ( controller ) => async ( req, res, next ) => {
   try {
     const result = await controller.create(req.body);
@@ -17,16 +14,12 @@ const get = ( controller ) => async ( req, res, next ) => {
   catch ( e ) { handleErr(e, next); }
 }
 
-const RouterComposer = ( controller ) => {
+const RouterComposer = ( router, controller ) => {
   if ( !controller ) { throw new Error("The RouterComposer needs a controller!"); }
   if ( !controller.isComposed() ) { throw new Error("The RouterComposer needs a composed controller!"); }
 
-  let router = express.Router();
-
   router.get('/', get(controller));
   router.post('/', create(controller));
-
-  return router;
 }
 
 module.exports = RouterComposer;

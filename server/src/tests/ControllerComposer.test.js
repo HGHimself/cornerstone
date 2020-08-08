@@ -38,9 +38,11 @@ describe('ControllerComposer', () => {
 
     // assert
     const user = await db.sequelize.models.User.findOne({where: {firstName: userObj.firstName}});
+    expect(user).not.toBeNull();
+    expect(user.firstName).toBe(userObj.firstName);
   })
 
-  it('uses the composed findAll method', async () => {
+  it('uses the composed get method', async () => {
     // setup
     ControllerComposer(UserController, services.userService);
     const userController = new UserController( {userService: services.userService} );
@@ -59,36 +61,48 @@ describe('ControllerComposer', () => {
       email: 'ae@ae.com',
     }, ];
 
-    // exercise
     for ( let i = 0; i < userObjs.length; i++ )  {
       const aUser = await db.sequelize.models.User.create(userObjs[i]);
       createdUsers.push(aUser.id);
     }
 
-    // assert
+    // exercise
     const users = await userController.get();
+
+    // assert
     expect(users).not.toBeNull();
     expect(users.length >= userObjs.length).toBe(true);
   });
 
-  it('uses the composed findAll method', async () => {
+  it('uses the composed get method with where', async () => {
     // setup
     ControllerComposer(UserController, services.userService);
     const userController = new UserController( {userService: services.userService} );
 
-    const userObj = {
-      firstName: 'Albert',
-      lastName: 'Einstein',
-      email: 'ae@ae.com',
-    };
+    const userObjs = [{
+      firstName: 'Gregor',
+      lastName: 'Mendel',
+      email: 'gm@gm.com',
+    },{
+      firstName: 'Linus',
+      lastName: 'Torvalds',
+      email: 'lt@lt.com',
+    },{
+      firstName: 'Linus',
+      lastName: 'Pauling',
+      email: 'lp@lp.com',
+    },];
+
+    for ( let i = 0; i < userObjs.length; i++ )  {
+      const aUser = await db.sequelize.models.User.create(userObjs[i]);
+      createdUsers.push(aUser.id);
+    }
 
     // exercise
-    const aUser = await db.sequelize.models.User.create(userObj);
-    createdUsers.push(aUser.id);
-
+    const users = await userController.get({firstName: userObjs[1].firstName});
+    console.log(users);
     // assert
-    const user = await userController.get({firstName: aUser.firstName});
-    expect(user).not.toBeNull();
-    expect(user.firstName).toBe(aUser.firstName);
+    expect(users).not.toBeNull();
+    expect(users.length >= 2).toBe(true);
   });
 });
