@@ -1,11 +1,14 @@
+const express = require('express');
+
 const RouterComposer = require('./RouterComposer');
 const UserRouter = require('./UserRouter');
 
-// generateRoutesFromControllers
 module.exports = ( controllers ) => {
+  const router = express.Router();
 
-  const userRouter = UserRouter({controllers.userController});
+  const userRouter = UserRouter({userController: controllers.userController});
   RouterComposer(userRouter, controllers.userController);
+  router.use('/users', userRouter);
 
-  app.use('/users', userRouter);
+  return router;
 }

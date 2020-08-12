@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 const StyledWrapper = styled.div`
 
-  background-color: #FBFBF8;
   font-family: 'Jost', sans-serif;
 
   .main {

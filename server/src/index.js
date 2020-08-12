@@ -29,12 +29,11 @@ try {
   const controllers = generateControllersFromServices(services);
 
   // Routes connect the controllers to the outside world
-  // const generateRoutesFromControllers = require('./routes');
-  // const routes =  generateRoutesFromControllers(controllers);
+  const generateRoutesFromControllers = require('./routes');
+  const routes = generateRoutesFromControllers(controllers);
 
-  app.get('/', function(req, res){
-    res.send('Hello World');
-  });
+  app.use('/', routes);
+
 
   app.listen(configuration.PORT, configuration.HOST);
   console.log(
